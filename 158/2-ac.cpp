@@ -13,6 +13,7 @@ class yuDate
             d = day;
             nc = numcount;
         }
+        
         string y;
         string m;
         string d;
@@ -25,7 +26,7 @@ vector<string> years;
 vector<string> months;
 vector<string> splitStrs;
 string pry;
-//（1-12月分别为31天，29天，31天，30天，31天，30天，31天，31天，30天，31天，30天，31天）
+//no leap year: month form 1-12: 31 days，29days，31days，30days，31days，30days，31days，31days，30days，31days，30days，31days
 int DAYS[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 void init()
@@ -61,12 +62,16 @@ int days(const string &month)
             return DAYS[i];
         }
     }
+
+    return 0;
 }
 
 bool isYear(const string &da)
 {
     if (da.length() == 0)
+    {
         return false;
+    }
 
     for (int i = 0; i < years.size(); ++i)
     {
@@ -82,7 +87,9 @@ bool isYear(const string &da)
 bool isMonth(const string &da)
 {
     if (da.length() == 0)
+    {
         return false;
+    }
 
     for (int i = 0; i < months.size(); ++i)
     {
@@ -99,7 +106,9 @@ bool isDay(string &day, const string &da, const string &month)
 {
     int len = da.length();
     if (len == 0)
+    {
         return false;
+    }
 
     int dayLimit = days(month);
     day = da[len-1];
@@ -115,9 +124,12 @@ bool isDay(string &day, const string &da, const string &month)
 
         val = (da[i]-'0')*10 + val;
         if (val > dayLimit || val <= 0)
+        {
             return false;
+        }
 
         day.insert(0, 1, da[i]);
+        
         return true;
     }
 
@@ -149,6 +161,7 @@ void checkDate(const string & year, const string &month, const string &day)
         {
             ans = index;
         }
+
         flag = true;
         break;
     }
@@ -162,18 +175,20 @@ void checkDate(const string & year, const string &month, const string &day)
 
 void solve()
 {
-    for (int i = 2; i < splitStrs.size(); ++i)
+    for (int i = 1; i < splitStrs.size()-1; ++i)
     {
-        int yi = i;
-        if(isYear(splitStrs[yi]) == false)
-        {
-            continue;
-        }
-        int mi = yi - 1;
+        int mi = i;
         if (mi<=0 || isMonth(splitStrs[mi]) == false)
         {
             continue;
         }
+        
+        int yi = mi+1;
+        if(isYear(splitStrs[yi].substr(0,4)) == false)
+        {
+            continue;
+        }
+
         int di = mi - 1;
         string day;
         if (di<0 || isDay(day, splitStrs[di], splitStrs[mi]) == false)
@@ -181,7 +196,7 @@ void solve()
             continue;
         }
 
-        checkDate(splitStrs[yi], splitStrs[mi], day);
+        checkDate(splitStrs[yi].substr(0, 4), splitStrs[mi], day);
     }
 }
 
@@ -191,6 +206,7 @@ void output()
     {
         cout<<yuDates[ans].d<<"-"<<yuDates[ans].m<<"-"<<yuDates[ans].y<<endl;
     }
+
 }
 
 int main()
@@ -200,7 +216,7 @@ int main()
     int st = 0;
     int end = 0;
     bool flag = true;
-    while ( flag )
+    while (flag)
     {
         end = pry.find_first_of('-', st);
         if (end == string::npos)
@@ -208,8 +224,8 @@ int main()
             end = pry.length();
             flag = false;
         }
+
         string sub = pry.substr(st, end-st);
-        //cout<<"ok: "<<sub<<endl;
         splitStrs.push_back(sub);
         st = end+1;
     }
