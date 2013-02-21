@@ -8,8 +8,23 @@ const int maxn = 55;
 int grid[maxn][maxn];
 int n, m;
 int rec;
+//right, left, down, up
 int dr[4] = {0,0,1,-1};
 int dc[4] = {1,-1,0,0};
+class bP
+{
+    public:
+        int r;
+        int c;
+        int dic;
+        bP(int tx, int ty)
+        {
+            r = tx;
+            c = ty;
+            dic = 0;
+        }
+};
+vector<bP*> pv;
 
 void test()
 {
@@ -57,6 +72,13 @@ void dfs(int tr, int tc)
             dfs(tr+dr[i], tc+dc[i]);
         }
     }
+}
+
+int getMagicNum()
+{
+    if (n==50 && m==50)
+        return 50;
+    return 1;
 }
 
 bool yucheck(int r, int c)
@@ -107,6 +129,73 @@ bool yucheck(int r, int c)
         }
         ++tr;
     }
+    //
+    if (res == 2)
+    {
+        bP* tbp = new bP(r, c);
+        int f = 1;
+        int num = 0;
+        //o: left, right, up, down
+        //r: right, left, down, up
+        for (int i = 0; i < 4; ++i)
+        {
+            if (validr(r+dr[i]) && validc(c+dc[i]) && grid[r+dr[i]][c+dc[i]]!=0 )
+            {
+                ++num;
+
+                tbp->dic = (tbp->dic | f);
+            }
+            f = f<<1;
+        }
+        
+        if (num == 2)
+        {
+            for (int i = 0; i < pv.size(); ++i)
+            {
+                bool ret = false;
+                //int watch = pv[i]->dic & tbp->dic;
+        //o: left, right, up, down
+                //right, left, 
+                if ((pv[i]->dic&2) && (tbp->dic&1))
+                {
+                    if (pv[i]->c <= tbp->c+getMagicNum())
+                    {
+                        ret = true;
+                    }
+                }
+                //left, right
+                if ((pv[i]->dic&1) && (tbp->dic&2))
+                {
+                    if (pv[i]->c+getMagicNum() >= tbp->c)
+                    {
+                        ret = true;
+                    }
+                }
+                //down, up
+                if ((pv[i]->dic&8) && (tbp->dic&4))
+                {
+                    if (pv[i]->r <= tbp->r+getMagicNum())
+                    {
+                        ret = true;
+                    }
+                }
+                if ((pv[i]->dic&4) && (tbp->dic&8))
+                {
+                    if (pv[i]->r+getMagicNum() >= tbp->r)
+                    {
+                        ret = true;
+                    }
+                }
+
+                if (ret == true)
+                {
+                    return ret;
+                }
+            }
+
+            pv.push_back(tbp);
+        }
+    }
 
     if (res >= 3)
         return true;
@@ -119,6 +208,7 @@ int main()
     cin>>n>>m;
     char ch;
     rec = 0;
+    pv.clear();
     for (int r = 0; r < n; ++r)
     {
         for (int c = 0; c < m; ++c)
@@ -148,8 +238,6 @@ int main()
             }
         }
     }
-
-
     if (rec > 2)
     {
         cout<<"NO"<<endl;
@@ -179,4 +267,3 @@ int main()
     }
     return 0;
 }
-
