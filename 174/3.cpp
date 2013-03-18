@@ -8,7 +8,6 @@
 #include <string.h>
 #define LL long long
 using namespace std;
-long toleft[200005];
 int main()
 {
     long n;
@@ -16,6 +15,7 @@ int main()
     long k;
     long add;
     cin>>n;
+    long *toleft = (long*)malloc((200005)*sizeof(long));
     vector<long> seqs;
     seqs.push_back(0);
     double ans = 0;
