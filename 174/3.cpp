@@ -5,9 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <string.h>
 #define LL long long
 using namespace std;
-
+long toleft[200005];
 int main()
 {
     long n;
@@ -19,16 +20,14 @@ int main()
     seqs.push_back(0);
     double ans = 0;
     LL sum = 0;
+    memset(toleft, 0, sizeof(toleft));
     while (n--)
     {
         cin>>t;
         if (t == 1)
         {
             cin>>k>>add;
-            for (int i = 0; i < k; ++i)
-            {
-                seqs[i] += add;
-            }
+            toleft[k-1] += add;
             sum += (k*add);
         }
         else if (t== 2)
@@ -39,11 +38,15 @@ int main()
         }
         else
         {
-            sum -= seqs[ seqs.size()-1 ];
+            int ttt = seqs.size();
+            seqs[ttt-1] += toleft[ttt-1];
+            toleft[ttt-2] += toleft[ttt-1];
+            toleft[ttt-1] = 0;
+            sum -= seqs[ ttt-1 ];
             seqs.pop_back();
         }
 
-        printf("%.6f\n", sum*1.0/seqs.size());
+        printf("%.6lf\n", sum*1.0/seqs.size());
     }
 
     return 0;
