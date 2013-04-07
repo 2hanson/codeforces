@@ -65,7 +65,7 @@ int main()
         tmp = new Book(tt, tw);
         books.push_back(tmp);
     }
-    
+
     //dp[t] = max(dp[t], dp[t-1]+w, dp[t-2]+w);
     dp[0] = 0;
     int tmpT;
@@ -81,6 +81,11 @@ int main()
 
             if (dp[tmpT] < (dp[tmpT-books[i]->t] + books[i]->w))
             {
+                if (tmpT-books[i]->t>0 && dp[tmpT-books[i]->t]==0)
+                {
+                    continue;
+                }
+
                 dp[tmpT] = (dp[tmpT-books[i]->t] + books[i]->w);
             }
         }
