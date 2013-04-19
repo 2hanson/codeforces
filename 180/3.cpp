@@ -36,5 +36,41 @@ using namespace std;
  * */
 
 int main()
-{}
+{
+    string a;
+    string b;
+    cin>>a>>b;
+    int cnta = 0;
+    int cntb = 0;
+    for (int i = 0; i < a.length(); ++i)
+    {
+        if (a[i] == '1')
+        {
+            ++cnta;
+        }
+    }
+
+    for (int i = 0; i < b.length(); ++i)
+    {
+        if (b[i] == '1')
+        {
+            ++cntb;
+        }
+    }
+
+    if (cnta%2 != 0)
+    {
+        ++cnta;
+    }
+    if (cnta >= cntb)
+    {
+        cout<<"YES"<<endl;
+    }
+    else
+    {
+        cout<<"NO"<<endl;
+    }
+
+    return 0;
+}
 
