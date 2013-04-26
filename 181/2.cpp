@@ -42,7 +42,7 @@ vector<vector<int> >res;
 
 bool dfs(int cur, vector<int> tmp)
 {
-    for (int i = cur; i <= n; ++i)
+    for (int i = 1; i <= n; ++i)
     {
         if (g[i] == cur)
         {
@@ -52,13 +52,15 @@ bool dfs(int cur, vector<int> tmp)
 
     g[cur] = -1;
 
+
     if (tmp.size() == 3)
     {
+
         res.push_back(tmp);
         return true;
     }
 
-    for (int i = cur + 1; i <= n; ++i)
+    for (int i = 1; i <= n; ++i)
     {
         if (g[i] != i)
         {
@@ -111,10 +113,11 @@ int main()
         {
             continue;
         }
-
+        
+        int tt = g[bi];
         for (int i = 1; i <= n; ++i)
         {
-            if (g[i] == g[bi])
+            if (g[i] == tt)
             {
                 g[i] = g[ai];
                 ++cnt[ g[ai] ];
@@ -136,13 +139,21 @@ int main()
         res.clear();
         vector<int> tmp;
         int rec = 0;
+        for (int tc = 3; tc >= 1; --tc)
+        {
         for (int i = 1; i<=n && flag==true; ++i)
         {
+            if (cnt[g[i]] != tc)
+            {
+                continue;
+            }
+
             if (g[i] == i)
             {
                 tmp.clear();
                 flag = dfs(i, tmp);
             }
+        }
         }
 
         if (flag == false)
