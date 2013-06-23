@@ -1,32 +1,19 @@
 #include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
-class Solution
+vector<string> getWords(string str)
 {
-    public:
-        void test(int a, int b)
-        {
-            int c = a + b;
-        }
-
-        int test(int a)
-        {
-        }
-
-        void test(int a, char b)
-        {
-            char c = b;
-        }
-
-        void test(char a, int b)
-        {
-            char c = a;
-        }
-};
+    cout<<str<<endl;
+    vector<string> words;
+    return words;
+}
 
 int main()
 {
-    Solution s;
-    s.test(1);
+    string str = "0";
+    getWords(str);
     return 0;
 }
+
