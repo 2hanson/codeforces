@@ -1,19 +1,15 @@
 #include <iostream>
-#include <vector>
-#include <string>
 using namespace std;
-
-vector<string> getWords(string str)
-{
-    cout<<str<<endl;
-    vector<string> words;
-    return words;
-}
 
 int main()
 {
-    string str = "0";
-    getWords(str);
+    int a, b;
+    int tmp;
+    long long t2;
+    while (cin>>a>>b ) {
+    tmp = a + b;
+    t2 += (long long)(a + b);
+    cout<<tmp<<endl<<t2<<endl;
+    }
     return 0;
 }
-
