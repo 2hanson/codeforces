@@ -15,9 +15,11 @@ int main()
         cin>>num;
         tmp = num, index = 0;
         while (tmp) {
+            if (tmp & 1) {
+                bitRec[index+1][0] &= num, bitRec[index+1].push_back(num);
+            }
             ++index, tmp>>=1;
         }
-        bitRec[index][0] &= num, bitRec[index].push_back(num);
     }
     for (int i = 30; i >= 1; --i) {
         if ( !(bitRec[i][0] & (bitRec[i][0]-1)) && bitRec[i].size()>1) {
